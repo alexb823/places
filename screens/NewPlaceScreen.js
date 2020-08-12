@@ -7,10 +7,12 @@ import {
   ScrollView,
   Button,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Colors from '../constants/Colors';
 import { addPlace } from '../store/placesActions';
+import ImgPicker from '../components/ImgPicker';
+import LocationPicker from '../components/LocationPicker';
 
 const styles = StyleSheet.create({
   form: {
@@ -29,16 +31,21 @@ const styles = StyleSheet.create({
   },
 });
 
-const NewPlaceScreen = ({navigation}) => {
+const NewPlaceScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
+  const [image, setImage] = useState();
   const dispatch = useDispatch();
 
   const titleChangeHandler = (text) => {
     setTitle(text);
   };
 
+  const imageTakenHandler = (imageUri) => {
+    setImage(imageUri);
+  };
+
   const savePlaceHandler = () => {
-    dispatch(addPlace({title}));
+    dispatch(addPlace(title, image));
     navigation.goBack();
   };
 
@@ -51,8 +58,10 @@ const NewPlaceScreen = ({navigation}) => {
           value={title}
           onChangeText={titleChangeHandler}
         />
+        <ImgPicker onImageTaken={imageTakenHandler} />
+        <LocationPicker navigation={navigation} />
         <Button
-          title="Add Place"
+          title="Save Place"
           color={Colors.primary}
           onPress={savePlaceHandler}
         />

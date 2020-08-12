@@ -1,23 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Platform, FlatList } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
 import PlaceItem from '../components/PlaceItem';
+import { setPlaces } from '../store/placesActions';
 
 const styles = StyleSheet.create({});
 
 const PlacesListScreen = ({ navigation }) => {
   const { places } = useSelector((state) => state.places);
+  const dispatch = useDispatch();
 
-  const renderItemHandler = ({ item: { title, id } }) => {
+  useEffect(() => {
+    dispatch(setPlaces());
+  }, []);
+
+  const renderItemHandler = ({ item: { id, title, imageUri } }) => {
     return (
       <PlaceItem
         title={title}
-        image={'https://d36tnp772eyphs.cloudfront.net/blogs/1/2018/08/Kauai-lead.jpg'}
+        image={imageUri}
         address={null}
-        onSelect={() => navigation.navigate('PlaceDetail', { title, id })}
+        onSelect={() => navigation.navigate('PlaceDetail', { id, title })}
       />
     );
   };
