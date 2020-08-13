@@ -34,6 +34,8 @@ const styles = StyleSheet.create({
 const NewPlaceScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [image, setImage] = useState();
+  const [selectedLocation, setSelectedLocation] = useState()
+
   const dispatch = useDispatch();
 
   const titleChangeHandler = (text) => {
@@ -44,10 +46,15 @@ const NewPlaceScreen = ({ navigation }) => {
     setImage(imageUri);
   };
 
+  const locationPickedHandler = (location) => {
+    setSelectedLocation(location);
+  };
+
   const savePlaceHandler = () => {
-    dispatch(addPlace(title, image));
+    dispatch(addPlace(title, image, selectedLocation));
     navigation.goBack();
   };
+
 
   return (
     <ScrollView>
@@ -59,7 +66,10 @@ const NewPlaceScreen = ({ navigation }) => {
           onChangeText={titleChangeHandler}
         />
         <ImgPicker onImageTaken={imageTakenHandler} />
-        <LocationPicker navigation={navigation} />
+        <LocationPicker
+          navigation={navigation}
+          onLocationPicked={locationPickedHandler}
+        />
         <Button
           title="Save Place"
           color={Colors.primary}

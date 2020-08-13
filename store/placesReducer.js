@@ -14,7 +14,10 @@ export const places = (state = initialState, action) => {
           new Place(
             action.place.id.toString(),
             action.place.title,
-            action.place.image
+            action.place.image,
+            action.place.address,
+            action.place.latitude,
+            action.place.longitude
           ),
         ],
       };

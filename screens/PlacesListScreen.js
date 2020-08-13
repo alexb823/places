@@ -17,13 +17,13 @@ const PlacesListScreen = ({ navigation }) => {
     dispatch(setPlaces());
   }, []);
 
-  const renderItemHandler = ({ item: { id, title, imageUri } }) => {
+  const renderItemHandler = ({ item }) => {
     return (
       <PlaceItem
-        title={title}
-        image={imageUri}
-        address={null}
-        onSelect={() => navigation.navigate('PlaceDetail', { id, title })}
+        title={item.title}
+        image={item.imageUri}
+        address={item.address}
+        onSelect={() => navigation.navigate('PlaceDetail', { item })}
       />
     );
   };

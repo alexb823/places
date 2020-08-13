@@ -10,12 +10,14 @@ import { init, dropTable } from './helpers/db';
 
 enableScreens();
 
-// const dropAndinitDb = () => {
+// const dropAndInitDb = () => {
 //   return dropTable('places')
 //     .then(() => init())
 //     .then(() => console.log('db initialize'))
 //     .catch((e) => console.log('db failed to initialize', e));
 // };
+
+// dropAndInitDb();
 
 init()
   .then(() => console.log('db initialize'))

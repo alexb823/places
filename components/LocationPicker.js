@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -32,9 +32,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const LocationPicker = ({navigation}) => {
+const LocationPicker = ({ navigation, onLocationPicked }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [pickedLocation, setPickedLocation] = useState();
+
+  const mapPickedLocation = navigation.getParam('selectedLocation');
+
+  useEffect(() => {
+    if(mapPickedLocation) {
+      setPickedLocation(mapPickedLocation);
+      onLocationPicked(mapPickedLocation);
+    }
+  }, [mapPickedLocation]);
 
   const verifyPermissions = () => {
     return Permissions.askAsync(Permissions.LOCATION)
@@ -56,9 +65,10 @@ const LocationPicker = ({navigation}) => {
       if (!permission) return;
       setIsFetching(true);
       return Location.getCurrentPositionAsync({ timeout: 5000 })
-        .then(({ coords }) =>
-          setPickedLocation({ lat: coords.latitude, lng: coords.longitude })
-        )
+        .then(({ coords: { latitude, longitude } }) => {
+          setPickedLocation({ latitude, longitude });
+          onLocationPicked({ latitude, longitude });
+        })
         .catch((e) => {
           console.log(e);
           Alert.alert(

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import ENV from '../env';
 
 const styles = StyleSheet.create({
@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
 const MapPreview = ({ location, children, style, onPress }) => {
   let imagePreviewUrl;
   if (location) {
-    imagePreviewUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location.lat},${location.lng}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:A%7C${location.lat},${location.lng}&key=${ENV.googleApiKey}`;
+    const {latitude, longitude} = location;
+    imagePreviewUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:A%7C${latitude},${longitude}&key=${ENV.googleApiKey}`;
   }
 
   return (
